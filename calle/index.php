@@ -1,7 +1,22 @@
-<?php 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="icon" type="image/vnd.microsoft.icon" href="../images/favicon.ico">
+
+    <title>Analisis de calles</title>
+</head>
+<body>
+    
+</body>
+</html><?php 
  /* 
   * proceso de control de la tabla de calles
   * Developer: Carlos Garcia > carlosgctes@gmail
+  / fecha: 05/03/2019
   */
 
 require('../conexion.php');
@@ -23,18 +38,3 @@ while($registro = $rst_vw_calles26_02->fetchObject()){
 $rst_vw_calles26_02 = null;
 $conPdoPg = null;
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <link rel="icon" type="image/vnd.microsoft.icon" href="../images/favicon.ico">
-
-    <title>Analisis de calles</title>
-</head>
-<body>
-    
-</body>
-</html>
