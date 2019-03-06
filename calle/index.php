@@ -40,16 +40,35 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 
 require('../conexion.php');
 
+// variables de apoyo
+$ejecutar = true;
+$tabla = "vw_calles26-02";
+
 // verifico si hay id_calles duplicados
+$qry_duplicados = "
+select id_calles, \"count\"(id_calles) as cantidad
+from actualizar.\"$tabla\"
+group by id_calles 
+having \"count\"(id_calles) > 1;
+";
+
+$rst_duplicados = $conPdoPg->query($qry_duplicados);
+
+if($rst_duplicados->rowCount() > 0){
+    $ejecutar = false;
+    ehco "Hay registros duplicados en la tabla: $tabla";
+}
 
 // verifico si hay id_calles con valor cero
 
 // verifico si hay id_calles en null
 
-$qry_vw_calles26_02 = "select * from \"gismcc\".\"vw_calles26-02\" where id_calles = 1638 order by id_calles limit 2";
+$qry_vw_calles26_02 = "select * from \"gismcc\".\"$tabla\" where id_calles = 1638 order by id_calles limit 10";
+
 /* leo la capa vw_calles26-02 */
 try {
-    $qry_vw_calles26_02 = "select * from \"actualizar\".\"vw_calles26-02\" order by id_calles limit 10";
+
+    $qry_vw_calles26_02 = "select * from \"actualizar\".\"$tabla\" order by id_calles limit 10";
 
     $rst_vw_calles26_02 = $conPdoPg->query($qry_vw_calles26_02);
 
