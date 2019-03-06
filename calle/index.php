@@ -27,9 +27,16 @@ header("charset: utf-8");
 
 require('../conexion.php');
 
-$qry_vw_calles26_02 = "select * from \"gismcc\".\"vw_calles26-02\" order by id_calles limit 20";
+/* leo la capa vw_calles26-02 */
+try {
+    $qry_vw_calles26_02 = "select * from \"actualizar\".\"vw_calles26-02\" order by id_calles limit 10";
 
-$rst_vw_calles26_02 = $conPdoPg->query($qry_vw_calles26_02);
+    $rst_vw_calles26_02 = $conPdoPg->query($qry_vw_calles26_02);
+
+} catch (PDOException $e){
+    print $e;
+    exit;
+}
 
 $file = fopen("AnalisisCalle.log", "w");
 
