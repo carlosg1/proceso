@@ -1,19 +1,6 @@
 
 
-<<<<<<< HEAD
-Inicio Analisis 05/03/2019 21:22:55
-id_calles | Observacion
-=======
-Inicio Analisis 06/03/2019 14:20:59
-id_calles | Observacion
-1 => Se recorrio el registro como prueba
-2 => Se recorrio el registro como prueba
-3 => Se recorrio el registro como prueba
-4 => Se recorrio el registro como prueba
-5 => Se recorrio el registro como prueba
-6 => Se recorrio el registro como prueba
-7 => Se recorrio el registro como prueba
-8 => Se recorrio el registro como prueba
-9 => Se recorrio el registro como prueba
-10 => Se recorrio el registro como prueba
->>>>>>> 0ae7315f344998ac4630b344b3955a7ac2d78c56
+Inicio Analisis 06/03/2019 17:34:36
+
+
+Hay registros duplicados en la tabla: "vw_calles26-02" 

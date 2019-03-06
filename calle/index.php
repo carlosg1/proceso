@@ -10,7 +10,7 @@
     <title>Analisis de calles</title>
 </head>
 <body>
-    
+    <h2>Analiza la tabla de calles</h2>
 </body>
 </html><?php 
  /* 
@@ -40,35 +40,66 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 
 require('../conexion.php');
 
+// archivo para guardar datos y escribo el timestamp del inicio del analisis
+$file = fopen("AnalisisCalle.log", "w");
+
+fwrite($file, "\n\nInicio Analisis " . date('d/m/Y H:i:s') . PHP_EOL);
+
+echo "Inicio Analisis ", date('d/m/Y H:i:s');
+
 // variables de apoyo
 $ejecutar = true;
 $tabla = "vw_calles26-02";
 
+/************************ verificaciones sobre la llave *******************************/
+
 // verifico si hay id_calles duplicados
-$qry_duplicados = "
-select id_calles, \"count\"(id_calles) as cantidad
-from actualizar.\"$tabla\"
+$qry_duplicados = 'select id_calles, "count"(id_calles) as cantidad
+from "gismcc"."vw_calles26-02"
 group by id_calles 
-having \"count\"(id_calles) > 1;
-";
+having "count"(id_calles) > 1';
 
-$rst_duplicados = $conPdoPg->query($qry_duplicados);
+try{
+    $rst_duplicados = $conPdoPg->query($qry_duplicados);
 
-if($rst_duplicados->rowCount() > 0){
-    $ejecutar = false;
-    ehco "Hay registros duplicados en la tabla: $tabla";
+    if($rst_duplicados->rowCount() > 0){
+
+        $ejecutar = false;
+
+        fwrite($file, "\n\nHay registros duplicados en la tabla: \"vw_calles26-02\" " . PHP_EOL);
+
+        echo "<br /><br />Hay registros duplicados en la tabla: \"vw_calles26-02\"";
+
+    }
+
+} catch (Exception $e){
+    print $e->getMessage();
+    exit;
 }
+
+$rst_duplicados = null;
+
 
 // verifico si hay id_calles con valor cero
 
 // verifico si hay id_calles en null
 
-$qry_vw_calles26_02 = "select * from \"gismcc\".\"$tabla\" where id_calles = 1638 order by id_calles limit 10";
 
-/* leo la capa vw_calles26-02 */
+if(!$ejecutar){
+    fclose($file);
+    exit;
+}
+
+
+/***** inicio del recorrido de la tabla usada para actualizar la tabla de calles *****/
+
+$qry_vw_calles26_02 = "select * from \"gismcc\".\"vw_calles26-02\" where id_calles = 1638 order by id_calles limit 10";
+
+
 try {
 
-    $qry_vw_calles26_02 = "select * from \"actualizar\".\"$tabla\" order by id_calles limit 10";
+    /* leo la capa vw_calles26-02 */
+    $qry_vw_calles26_02 = "select * from \"gismcc\".\"vw_calles26-02\" order by id_calles limit 10";
 
     $rst_vw_calles26_02 = $conPdoPg->query($qry_vw_calles26_02);
 
@@ -76,10 +107,6 @@ try {
     print $e;
     exit;
 }
-
-$file = fopen("AnalisisCalle.log", "w");
-
-fwrite($file, "\n\nInicio Analisis " . date('d/m/Y H:i:s') . PHP_EOL);
 
 /***** imprime los resultados  *****/
 echo 'id_calles | Observacion' . "<br />";
