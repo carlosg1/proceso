@@ -10,6 +10,12 @@ header("charset=latin-1");
 
 include('con_pdopg_8_81.php');
 
+// controlar si hay duplicados en id_calles y id_calle
+
+// controlar si hay ceros en id_calles y id_calle
+
+// controlar si hay nulos en id_calles y id_calle
+
 $qry_id_traza = "SELECT DISTINCT ca.id_traza FROM gismcc.calles ca WHERE ((ca.id_traza > 0) AND (ca.id_traza is not null)) ORDER BY ca.id_traza;";
 
 $stm_id_traza = $conPdoPg->query($qry_id_traza);
@@ -24,7 +30,9 @@ $reg = 1;
 $file = fopen("callesSec1.csv", "w");
 
 $res = '"N";"id_calles";"nombre_calles";"id_traza";"id_secuencia_traza";"altura_desde";"altura_hasta";"the_geom";"marca"';
+
 echo $res . '<br />';
+
 fwrite($file, $res . PHP_EOL);
 
 @set_time_limit(60);

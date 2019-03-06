@@ -40,6 +40,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 
 require('../conexion.php');
 
+<<<<<<< HEAD
 // verifico si hay id_calles duplicados
 
 // verifico si hay id_calles con valor cero
@@ -47,8 +48,18 @@ require('../conexion.php');
 // verifico si hay id_calles en null
 
 $qry_vw_calles26_02 = "select * from \"gismcc\".\"vw_calles26-02\" where id_calles = 1638 order by id_calles limit 2";
+=======
+/* leo la capa vw_calles26-02 */
+try {
+    $qry_vw_calles26_02 = "select * from \"actualizar\".\"vw_calles26-02\" order by id_calles limit 10";
+>>>>>>> 0ae7315f344998ac4630b344b3955a7ac2d78c56
 
-$rst_vw_calles26_02 = $conPdoPg->query($qry_vw_calles26_02);
+    $rst_vw_calles26_02 = $conPdoPg->query($qry_vw_calles26_02);
+
+} catch (PDOException $e){
+    print $e;
+    exit;
+}
 
 $file = fopen("AnalisisCalle.log", "w");
 
