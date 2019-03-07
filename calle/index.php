@@ -51,7 +51,7 @@ echo '<br />';
 // variables de apoyo
 $ejecutar = true;
 $tablaOrigen = "vw_calles26-02";
-$esquemaOrigen = "gismcc";
+$esquemaOrigen = "actualizar";
 
 /************************ verificaciones sobre la llave *******************************/
 
@@ -133,6 +133,19 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
        $qry_update .= ", id_tipo_calle = $reg_calleOrigen->id_tipo_ca";
        $qry_update .= ", id_tipo_calzada = " . (is_null($reg_calleOrigen->id_tipo__1) ? "null" : $reg_calleOrigen->id_tipo__1);
        $qry_update .= ", id_barrios = $reg_calleOrigen->id_barrios";
+       $qry_update .= ", limite = " . (is_null($reg_calleOrigen->limite) ? "null" : $reg_calleOrigen->limite);
+       $qry_update .= ", altur_par = " . (is_null($reg_calleOrigen->altur_par) ? "null" : $reg_calleOrigen->altur_par);
+       $qry_update .= ", altur_impar = " . (is_null($reg_calleOrigen->altur_impa) ? "null" : $reg_calleOrigen->altur_impa);
+       $qry_update .= ", id_zonas_mantenimiento = " . (is_null($reg_calleOrigen->zonas_ct) ? "null" : $reg_calleOrigen->zonas_ct);
+       $qry_update .= ", nro_ordenanza = " . (is_null($reg_calleOrigen->nro_ordena) ? "null" : $reg_calleOrigen->nro_ordena);
+       $qry_update .= ", observacion = " . (is_null($reg_calleOrigen->observacio) ? "null" : $reg_calleOrigen->observacio);
+
+       genStrUpdate($reg_calleOrigen->the_geom_calles, $reg_calleDestino->the_geom);
+
+
+
+
+        
 
 
        $qry_update .= " where id_calles = $reg_calleOrigen->id_calles";
@@ -173,3 +186,9 @@ $stm_calleDestino = null;
 $rst_vw_calles26_02 = null;
 $conPdoPg = null;
 
+function genStrUpdate(origen, destino){
+
+        if(origen != destino){
+            
+        }
+}
