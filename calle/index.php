@@ -16,7 +16,7 @@
  /* 
   * proceso de control de la tabla de calles
   * Developer: Carlos Garcia > carlosgctes@gmail
-  * fecha: 05/03/2019
+  * fecha: 06/03/2019
   *
   */
 
@@ -46,23 +46,24 @@ $file = fopen("AnalisisCalle.log", "w");
 fwrite($file, "\n\nInicio Analisis " . date('d/m/Y H:i:s') . PHP_EOL);
 
 echo "Inicio Analisis ", date('d/m/Y H:i:s');
+echo '<br />';
 
 // variables de apoyo
 $ejecutar = true;
-$tabla = "vw_calles26-02";
+$tablaOrigen = "vw_calles26-02";
+$esquemaOrigen = "gismcc";
 
 /************************ verificaciones sobre la llave *******************************/
 
 // verifico si hay id_calles duplicados
-$qry_duplicados = 'select id_calles, "count"(id_calles) as cantidad
-from "gismcc"."vw_calles26-02"
-group by id_calles 
-having "count"(id_calles) > 1';
-
 try{
+
+    $qry_duplicados = 'select id_calles, "count"(id_calles) as cantidad
+    from "' . $esquemaOrigen .  '"."' . $tablaOrigen . '" group by id_calles having "count"(id_calles) > 1';
+
     $rst_duplicados = $conPdoPg->query($qry_duplicados);
 
-    if($rst_duplicados->rowCount() > 0){
+    if($rst_duplicados && $rst_duplicados->rowCount() > 0){
 
         $ejecutar = false;
 
@@ -77,8 +78,7 @@ try{
     exit;
 }
 
-$rst_duplicados = null;
-
+// $rst_duplicados = null;
 
 // verifico si hay id_calles con valor cero
 
@@ -93,45 +93,83 @@ if(!$ejecutar){
 
 /***** inicio del recorrido de la tabla usada para actualizar la tabla de calles *****/
 
-$qry_vw_calles26_02 = "select * from \"gismcc\".\"vw_calles26-02\" where id_calles = 1638 order by id_calles limit 10";
-
-
 try {
 
-    /* leo la capa vw_calles26-02 */
-    $qry_vw_calles26_02 = "select * from \"gismcc\".\"vw_calles26-02\" order by id_calles limit 10";
+    $qry_vw_calles26_02 = 'select * from "' . $esquemaOrigen . '"."' . $tablaOrigen . '" where id_calles = 1683 order by id_calles limit 10';
 
     $rst_vw_calles26_02 = $conPdoPg->query($qry_vw_calles26_02);
 
 } catch (PDOException $e){
-    print $e;
+    print $e->getMessage();
     exit;
 }
 
 /***** imprime los resultados  *****/
-echo 'id_calles | Observacion' . "<br />";
-
 fwrite($file, 'id_calles | Observacion' . PHP_EOL);
+// echo 'id_calles | Observacion' . "<br />";
 
 /* preparo la consulta para consultar la tabla calles */
 $qry_calles = 'select * from gismcc.calles where id_calles = :p1';
 
-$stm_calles = $conPdoPg->prepare($qry_calles, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+$stm_calleDestino = $conPdoPg->prepare($qry_calles, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+
+/* preparo la consulta para actualizar */
+$qry_update = 'update gismcc.calles set ';
+$msg_update = '';
+$actualizarRegistroCalle = false;
+$ponerComa = false;
+
+while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
+
+    $stm_calleDestino->execute(array(':p1' => $reg_calleOrigen->id_calles));
+
+    $reg_calleDestino = $stm_calleDestino->fetchObject();
+
+    if($reg_calleDestino){
+        // existe el id_calles en la tabla calles
+       $qry_update = 'update gismcc.calles '; 
+       $qry_update .= 'set id_calle = ' . $reg_calleOrigen->id_calle;
+       $qry_update .= ", nombre_calles = '$reg_calleOrigen->nombre'";
+       $qry_update .= ", id_tipo_calle = $reg_calleOrigen->id_tipo_ca";
+       $qry_update .= ", id_tipo_calzada = " . (is_null($reg_calleOrigen->id_tipo__1) ? "null" : $reg_calleOrigen->id_tipo__1);
+       $qry_update .= ", id_barrios = $reg_calleOrigen->id_barrios";
 
 
-while($registro = $rst_vw_calles26_02->fetchObject()){
+       $qry_update .= " where id_calles = $reg_calleOrigen->id_calles";
 
-    $stm_calles->execute(array(':p1' => $registro->id_calles));
+       echo $qry_update;
 
-    $resultado = $stm_calles->fetchAll();
+    } else {
+        echo '<br />No existe el id_calles ' . $reg_calleOrigen;
+    }
 
-    var_dump( $resultado );
+    /*
+    if($reg_calleDestino->id_calle != $reg_calleOrigen->id_calle){
 
+        $qry_update .= 'id_calle = ' . $reg_calleOrigen->id_calle;
+        
+        $msg_update .= '&nbsp;&nbsp;Se actualizo id_calle : ' . (is_null($reg_calleDestino->id_calle) ? 'NULL' : $reg_calleDestino->id_calle) . ' => ' . $reg_calleOrigen->id_calle;
+
+        $actualizarRegistroCalle = true; // quiere decir que hay que actualizar el registro al final de lo if's
+
+        $ponerComa = true; // para que ponga una coma adelante de los siguientes campos que se van a actualizar
+    
+    }
+*/
+/*
+    if($actualizarRegistroCalle){
+        echo '<br />' . $qry_update;
+        echo '<br />' . $msg_update;
+    }
+*/
 }
+
+
+
 
 fclose($file);
 
-$stm_calles = null;
+$stm_calleDestino = null;
 $rst_vw_calles26_02 = null;
 $conPdoPg = null;
 
