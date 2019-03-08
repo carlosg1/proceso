@@ -1,0 +1,7 @@
+A       A           igual
+---------------------------------
+A       B           distinto *
+A       null        distinto *
+null    B           distinto *
+---------------------------------
+null    null        igual

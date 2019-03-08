@@ -20,6 +20,8 @@
   *
   */
 
+@error_reporting(E_ALL);
+
 header("Content-Type: text/html");
 header("charset: utf-8");
 
@@ -36,8 +38,6 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 }
 */
 
-@error_reporting(E_ALL);
-
 require('../conexion.php');
 
 // archivo para guardar datos y escribo el timestamp del inicio del analisis
@@ -51,7 +51,8 @@ echo '<br />';
 // variables de apoyo
 $ejecutar = true;
 $tablaOrigen = "vw_calles26-02";
-$esquemaOrigen = "actualizar";
+$esquemaOrigen = "gismcc";
+$usuario = 'carlosg';
 
 /************************ verificaciones sobre la llave *******************************/
 
@@ -114,7 +115,6 @@ $qry_calles = 'select * from gismcc.calles where id_calles = :p1';
 $stm_calleDestino = $conPdoPg->prepare($qry_calles, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
 
 /* preparo la consulta para actualizar */
-$qry_update = 'update gismcc.calles set ';
 $msg_update = '';
 $actualizarRegistroCalle = false;
 $ponerComa = false;
@@ -126,55 +126,39 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
     $reg_calleDestino = $stm_calleDestino->fetchObject();
 
     if($reg_calleDestino){
+
+
         // existe el id_calles en la tabla calles
-       $qry_update = 'update gismcc.calles '; 
-       $qry_update .= 'set id_calle = ' . $reg_calleOrigen->id_calle;
-       $qry_update .= ", nombre_calles = '$reg_calleOrigen->nombre'";
-       $qry_update .= ", id_tipo_calle = $reg_calleOrigen->id_tipo_ca";
-       $qry_update .= ", id_tipo_calzada = " . (is_null($reg_calleOrigen->id_tipo__1) ? "null" : $reg_calleOrigen->id_tipo__1);
-       $qry_update .= ", id_barrios = $reg_calleOrigen->id_barrios";
-       $qry_update .= ", limite = " . (is_null($reg_calleOrigen->limite) ? "null" : $reg_calleOrigen->limite);
-       $qry_update .= ", altur_par = " . (is_null($reg_calleOrigen->altur_par) ? "null" : $reg_calleOrigen->altur_par);
-       $qry_update .= ", altur_impar = " . (is_null($reg_calleOrigen->altur_impa) ? "null" : $reg_calleOrigen->altur_impa);
-       $qry_update .= ", id_zonas_mantenimiento = " . (is_null($reg_calleOrigen->zonas_ct) ? "null" : $reg_calleOrigen->zonas_ct);
-       $qry_update .= ", nro_ordenanza = " . (is_null($reg_calleOrigen->nro_ordena) ? "null" : $reg_calleOrigen->nro_ordena);
-       $qry_update .= ", observacion = " . (is_null($reg_calleOrigen->observacio) ? "null" : $reg_calleOrigen->observacio);
+        $qry_update = 'update gismcc.calles set ';
 
-       genStrUpdate($reg_calleOrigen->the_geom_calles, $reg_calleDestino->the_geom);
-
-
-
-
-        
-
+        $qry_update .= genStrUpdate('id_calle', $reg_calleOrigen->id_calle, $reg_calleDestino->id_calle);
+        $qry_update .= genStrUpdate('nombre_calles', $reg_calleOrigen->nombre, $reg_calleDestino->nombre_calles);
+        $qry_update .= genStrUpdate('id_tipo_calle', $reg_calleOrigen->id_tipo_ca, $reg_calleDestino->id_tipo_calle);
+        $qry_update .= genStrUpdate('id_tipo_calzada', $reg_calleOrigen->id_tipo__1, $reg_calleDestino->id_tipo_calzada);
+        $qry_update .= genStrUpdate('id_barrios', $reg_calleOrigen->id_barrios, $reg_calleDestino->id_barrios);
+        $qry_update .= genStrUpdate('limite', $reg_calleOrigen->limite, $reg_calleDestino->limite);
+        $qry_update .= genStrUpdate('altur_par', $reg_calleOrigen->altur_par, $reg_calleDestino->altur_par);
+        $qry_update .= genStrUpdate('altur_impar', $reg_calleOrigen->altur_impa, $reg_calleDestino->altur_impar);
+        $qry_update .= genStrUpdate('id_zonas_mantenimiento', $reg_calleOrigen->zonas_ct, $reg_calleDestino->id_zonas_mantenimiento);
+        $qry_update .= genStrUpdate('nro_ordenanza', $reg_calleOrigen->nro_ordena, $reg_calleDestino->nro_ordenanza);
+        $qry_update .= genStrUpdate('observacion', $reg_calleOrigen->observacio, $reg_calleDestino->observacion);
+        $qry_update .= genStrUpdate('the_geom_calles', $reg_calleOrigen->the_geom_calles, $reg_calleDestino->the_geom_calles);
+        $qry_update .= genStrUpdate('fecha_modificacion', "'" . date('Y-m-d H:m:s') . "'", '');
+        $qry_update .= genStrUpdate('usuario', "'" . $usuario . "'", '');
+        $qry_update .= genStrUpdate('id_traza', $reg_calleOrigen->id_traza, $reg_calleDestino->id_traza);
+        $qry_update .= genStrUpdate('id_barrio_par', $reg_calleOrigen->id_barrio_, $reg_calleDestino->id_barrio_par);
+        $qry_update .= genStrUpdate('id_barrio_impar', $reg_calleOrigen->id_barri_1, $reg_calleDestino->id_barrio_impar);
 
        $qry_update .= " where id_calles = $reg_calleOrigen->id_calles";
 
        echo $qry_update;
 
     } else {
+
         echo '<br />No existe el id_calles ' . $reg_calleOrigen;
-    }
-
-    /*
-    if($reg_calleDestino->id_calle != $reg_calleOrigen->id_calle){
-
-        $qry_update .= 'id_calle = ' . $reg_calleOrigen->id_calle;
-        
-        $msg_update .= '&nbsp;&nbsp;Se actualizo id_calle : ' . (is_null($reg_calleDestino->id_calle) ? 'NULL' : $reg_calleDestino->id_calle) . ' => ' . $reg_calleOrigen->id_calle;
-
-        $actualizarRegistroCalle = true; // quiere decir que hay que actualizar el registro al final de lo if's
-
-        $ponerComa = true; // para que ponga una coma adelante de los siguientes campos que se van a actualizar
     
     }
-*/
-/*
-    if($actualizarRegistroCalle){
-        echo '<br />' . $qry_update;
-        echo '<br />' . $msg_update;
-    }
-*/
+
 }
 
 
@@ -186,9 +170,31 @@ $stm_calleDestino = null;
 $rst_vw_calles26_02 = null;
 $conPdoPg = null;
 
-function genStrUpdate(origen, destino){
+function genStrUpdate($campoDestino, $origen, $destino){
 
-        if(origen != destino){
-            
+    global $actualizarRegistroCalle;
+
+    $ret = '';
+    
+    $distintos = false;
+
+    if($origen != $destino){
+
+        if($actualizarRegistroCalle){
+
+            $ret = ', ' . $campoDestino . ' = ';
+            $ret .= is_null($origen) ? "null" : $origen;
+
+        } else {
+
+            $ret = $campoDestino . ' = ' . $origen;
+
+            $actualizarRegistroCalle = true;
+
         }
+
+    }
+
+    return $ret;
+
 }
