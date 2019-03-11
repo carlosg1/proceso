@@ -50,8 +50,8 @@ echo '<br />';
 
 // variables de apoyo
 $ejecutar = true;
-$tablaOrigen = "vw_calles26-02";
-$esquemaOrigen = "gismcc";
+$tablaOrigen = "vw_calles2602";
+$esquemaOrigen = "actualizar";
 $usuario = 'carlosg';
 
 /************************ verificaciones sobre la llave *******************************/
@@ -96,7 +96,7 @@ if(!$ejecutar){
 
 try {
 
-    $qry_vw_calles26_02 = 'select * from "' . $esquemaOrigen . '"."' . $tablaOrigen . '" where id_calles = 1683 order by id_calles limit 10';
+    $qry_vw_calles26_02 = 'select * from "' . $esquemaOrigen . '"."' . $tablaOrigen . '" where id_calles = 822 order by id_calles limit 10';
 
     $rst_vw_calles26_02 = $conPdoPg->query($qry_vw_calles26_02);
 
@@ -132,24 +132,32 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
         $qry_update = 'update gismcc.calles set ';
 
         $qry_update .= genStrUpdate('id_calle', $reg_calleOrigen->id_calle, $reg_calleDestino->id_calle);
-        $qry_update .= genStrUpdate('nombre_calles', $reg_calleOrigen->nombre, $reg_calleDestino->nombre_calles);
+        $qry_update .= genStrUpdate('nombre_calles', "'" . $reg_calleOrigen->nombre . "'", "'" . $reg_calleDestino->nombre_calles . "'");
         $qry_update .= genStrUpdate('id_tipo_calle', $reg_calleOrigen->id_tipo_ca, $reg_calleDestino->id_tipo_calle);
         $qry_update .= genStrUpdate('id_tipo_calzada', $reg_calleOrigen->id_tipo__1, $reg_calleDestino->id_tipo_calzada);
         $qry_update .= genStrUpdate('id_barrios', $reg_calleOrigen->id_barrios, $reg_calleDestino->id_barrios);
-        $qry_update .= genStrUpdate('limite', $reg_calleOrigen->limite, $reg_calleDestino->limite);
+        $qry_update .= genStrUpdate('limite', "'" . $reg_calleOrigen->limite . "'", $reg_calleDestino->limite);
         $qry_update .= genStrUpdate('altur_par', $reg_calleOrigen->altur_par, $reg_calleDestino->altur_par);
         $qry_update .= genStrUpdate('altur_impar', $reg_calleOrigen->altur_impa, $reg_calleDestino->altur_impar);
         $qry_update .= genStrUpdate('id_zonas_mantenimiento', $reg_calleOrigen->zonas_ct, $reg_calleDestino->id_zonas_mantenimiento);
-        $qry_update .= genStrUpdate('nro_ordenanza', $reg_calleOrigen->nro_ordena, $reg_calleDestino->nro_ordenanza);
-        $qry_update .= genStrUpdate('observacion', $reg_calleOrigen->observacio, $reg_calleDestino->observacion);
-        $qry_update .= genStrUpdate('the_geom_calles', $reg_calleOrigen->the_geom_calles, $reg_calleDestino->the_geom_calles);
+        $qry_update .= genStrUpdate('nro_ordenanza', "'" . $reg_calleOrigen->nro_ordena . "'", $reg_calleDestino->nro_ordenanza);
+        $qry_update .= genStrUpdate('observacion', "'" . $reg_calleOrigen->observacio . "'", $reg_calleDestino->observacion);
+        $qry_update .= genStrUpdate('the_geom_calles', "'" . $reg_calleOrigen->the_geom_calles . "'", "'" . $reg_calleDestino->the_geom_calles . "'");
         $qry_update .= genStrUpdate('fecha_modificacion', "'" . date('Y-m-d H:m:s') . "'", '');
         $qry_update .= genStrUpdate('usuario', "'" . $usuario . "'", '');
         $qry_update .= genStrUpdate('id_traza', $reg_calleOrigen->id_traza, $reg_calleDestino->id_traza);
         $qry_update .= genStrUpdate('id_barrio_par', $reg_calleOrigen->id_barrio_, $reg_calleDestino->id_barrio_par);
         $qry_update .= genStrUpdate('id_barrio_impar', $reg_calleOrigen->id_barri_1, $reg_calleDestino->id_barrio_impar);
+        $qry_update .= genStrUpdate('estado_calle', "'" . $reg_calleOrigen->estado_cal . "'", $reg_calleDestino->estado_calle);
+        $qry_update .= genStrUpdate('sentido_circulacion', "'" . $reg_calleOrigen->sentido_ci . "'", $reg_calleDestino->sentido_circulacion);
+        $qry_update .= genStrUpdate('id_secuencia_traza', $reg_calleOrigen->id_secuenc, $reg_calleDestino->id_secuencia_traza);
+        $qry_update .= genStrUpdate('altura', $reg_calleOrigen->altura, $reg_calleDestino->altura);
+        $qry_update .= genStrUpdate('resolucion', "'" . $reg_calleOrigen->resol . "'", $reg_calleDestino->resolucion);
+        $qry_update .= genStrUpdate('clasif_vial', $reg_calleOrigen->clasif_via, $reg_calleDestino->clasif_vial);
+        $qry_update .= genStrUpdate('clasif_red', $reg_calleOrigen->clasif_red, $reg_calleDestino->clasif_red);
+        $qry_update .= genStrUpdate('zonas_ct', $reg_calleOrigen->zonas_ct, $reg_calleDestino->zonas_ct);
 
-       $qry_update .= " where id_calles = $reg_calleOrigen->id_calles";
+       $qry_update .= " where id_calles = $reg_calleOrigen->id_calles; ";
 
        echo $qry_update;
 
@@ -162,7 +170,7 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
 }
 
 
-
+$actualizarRegistroCalle=false;
 
 fclose($file);
 
@@ -184,6 +192,8 @@ function genStrUpdate($campoDestino, $origen, $destino){
 
             $ret = ', ' . $campoDestino . ' = ';
             $ret .= is_null($origen) ? "null" : $origen;
+
+            $actualizarRegistroCalle = true;
 
         } else {
 
