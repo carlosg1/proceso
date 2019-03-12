@@ -22,6 +22,8 @@
 
 @error_reporting(E_ALL);
 
+set_time_limit(600);
+
 header("Content-Type: text/html");
 header("charset: utf-8");
 
@@ -129,6 +131,20 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
         
         // actualizo el registro existente
 
+        // control temporal
+/*        
+        $id_barrios = $reg_calleOrigen->id_barrios;
+        $id_barrio_par = $reg_calleOrigen->id_barrio_;
+        $id_barr_impar = $reg_calleOrigen->id_barri_1;
+
+        if($id_barrios == 142 || $id_barrios = 145){
+            $id_barrios = 56;
+        }
+
+        if($id_barrio_par == 142 || $id_barr_impar)
+
+*/
+
         $qry_update = 'update gismcc.calles set ';
 
         $qry_update .= genStrUpdate('id_calle', $reg_calleOrigen->id_calle, $reg_calleDestino->id_calle);
@@ -159,7 +175,13 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
 
         $qry_update .= " where id_calles = $reg_calleOrigen->id_calles; ";
 
-        $rst_update = $conPdoPg->query($qry_update);
+        try {
+
+            $rst_update = $conPdoPg->query($qry_update);
+
+        } catch (Exception $e){
+            echo $e->getMessage();
+        }
         
         // $rst_update = true; // borrar despues
 
@@ -174,6 +196,8 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
         } else {
 
             echo 'ERROR: No se actualizo el registro: ' . $reg_calleOrigen->id_calles . '<br /><br />';
+
+            echo $qry_update . '<br /><br />';
 
         }
 
@@ -225,6 +249,8 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
             } else {
 
                 echo 'ERROR!!! No se pudo insertar el registro: id_calles: ' . $reg_calleOrigen->id_calles . '<br /><br />';
+
+                echo $qry_insert . '<br /><br />';
 
             }
         } catch (PDOException $e){

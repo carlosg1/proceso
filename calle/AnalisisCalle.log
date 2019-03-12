@@ -1,6 +1,6 @@
 
 
-Inicio Analisis 11/03/2019 23:54:17
+Inicio Analisis 12/03/2019 13:47:38
 id_calles | Observacion
 "1";"Actualizado"
 "2";"Actualizado"
@@ -7278,7 +7278,6 @@ id_calles | Observacion
 "7457";"Actualizado"
 "7458";"Actualizado"
 "7459";"Actualizado"
-"7460";"Actualizado"
 "7461";"Actualizado"
 "7462";"Actualizado"
 "7463";"Actualizado"
@@ -7295,68 +7294,10 @@ id_calles | Observacion
 "7474";"Actualizado"
 "7475";"Actualizado"
 "7476";"Actualizado"
-"7477";"Actualizado"
 "7478";"Actualizado"
-"7479";"Actualizado"
-"7480";"Actualizado"
-"7481";"Actualizado"
-"7482";"Actualizado"
-"7483";"Actualizado"
-"7484";"Actualizado"
-"7485";"Actualizado"
-"7486";"Actualizado"
-"7487";"Actualizado"
-"7488";"Actualizado"
-"7489";"Actualizado"
-"7490";"Actualizado"
-"7491";"Actualizado"
-"7492";"Actualizado"
-"7493";"Actualizado"
-"7494";"Actualizado"
-"7495";"Actualizado"
-"7496";"Actualizado"
-"7497";"Actualizado"
-"7498";"Actualizado"
-"7499";"Actualizado"
-"7500";"Actualizado"
-"7501";"Actualizado"
-"7502";"Actualizado"
-"7503";"Actualizado"
-"7504";"Actualizado"
-"7505";"Actualizado"
-"7506";"Actualizado"
-"7507";"Actualizado"
-"7508";"Actualizado"
-"7509";"Actualizado"
-"7510";"Actualizado"
-"7511";"Actualizado"
-"7512";"Actualizado"
-"7513";"Actualizado"
-"7514";"Actualizado"
-"7515";"Actualizado"
-"7516";"Actualizado"
-"7517";"Actualizado"
-"7518";"Actualizado"
-"7519";"Actualizado"
-"7520";"Actualizado"
-"7521";"Actualizado"
-"7522";"Actualizado"
-"7523";"Actualizado"
-"7524";"Actualizado"
-"7525";"Actualizado"
-"7526";"Actualizado"
-"7527";"Actualizado"
-"7528";"Actualizado"
-"7529";"Actualizado"
 "7530";"Actualizado"
 "7531";"Actualizado"
-"7532";"Actualizado"
-"7533";"Actualizado"
 "7534";"Actualizado"
-"7535";"Actualizado"
-"7536";"Actualizado"
-"7537";"Actualizado"
-"7538";"Actualizado"
 "7539";"Actualizado"
 "7540";"Actualizado"
 "7541";"Actualizado"
@@ -8685,7 +8626,6 @@ id_calles | Observacion
 "8892";"Actualizado"
 "8893";"Actualizado"
 "8894";"Actualizado"
-"8895";"Actualizado"
 "8896";"Actualizado"
 "8897";"Actualizado"
 "8898";"Actualizado"
@@ -8850,8 +8790,6 @@ id_calles | Observacion
 "9072";"Actualizado"
 "9073";"Actualizado"
 "9074";"Actualizado"
-"9075";"Actualizado"
-"9076";"Actualizado"
 "9077";"Actualizado"
 "9078";"Actualizado"
 "9079";"Actualizado"
@@ -9361,7 +9299,6 @@ id_calles | Observacion
 "9628";"Actualizado"
 "9629";"Actualizado"
 "9630";"Actualizado"
-"9631";"Actualizado"
 "9632";"Actualizado"
 "9633";"Actualizado"
 "9634";"Actualizado"
@@ -9518,7 +9455,6 @@ id_calles | Observacion
 "9806";"Actualizado"
 "9807";"Actualizado"
 "9808";"Actualizado"
-"9809";"Actualizado"
 "9810";"Actualizado"
 "9811";"Actualizado"
 "9812";"Actualizado"
@@ -10263,102 +10199,104 @@ id_calles | Observacion
 "25269";"Actualizado"
 "25270";"Actualizado"
 "25271";"Actualizado"
-25272 Insertado
-25273 Insertado
-25274 Insertado
-25275 Insertado
-25276 Insertado
-25277 Insertado
-25278 Insertado
-25279 Insertado
-25280 Insertado
-25281 Insertado
-25282 Insertado
-25283 Insertado
-25284 Insertado
-25285 Insertado
-25286 Insertado
-25287 Insertado
-25288 Insertado
-25289 Insertado
-25290 Insertado
-25291 Insertado
-25292 Insertado
-25293 Insertado
-25294 Insertado
-25295 Insertado
-25296 Insertado
-25297 Insertado
-25298 Insertado
-25299 Insertado
-25300 Insertado
-"25301";"Actualizado"
-"25302";"Actualizado"
-"25303";"Actualizado"
-"25304";"Actualizado"
-"25305";"Actualizado"
-"25306";"Actualizado"
-"25307";"Actualizado"
-"25308";"Actualizado"
-"25309";"Actualizado"
-"25310";"Actualizado"
-"25311";"Actualizado"
-"25312";"Actualizado"
-"25313";"Actualizado"
-"25314";"Actualizado"
-"25315";"Actualizado"
-"25316";"Actualizado"
-"25317";"Actualizado"
-"25318";"Actualizado"
-"25319";"Actualizado"
-"25320";"Actualizado"
-25321 Insertado
-25322 Insertado
-25323 Insertado
-25324 Insertado
-25325 Insertado
-25326 Insertado
-25327 Insertado
-25328 Insertado
-25329 Insertado
-25330 Insertado
-25331 Insertado
-25332 Insertado
-25333 Insertado
-25334 Insertado
-25335 Insertado
-25336 Insertado
-25337 Insertado
-25338 Insertado
-25339 Insertado
-25340 Insertado
-25341 Insertado
-25342 Insertado
-25343 Insertado
-25344 Insertado
-25345 Insertado
-25346 Insertado
-25347 Insertado
-25348 Insertado
-25349 Insertado
-25350 Insertado
-25351 Insertado
-25352 Insertado
-25353 Insertado
-25354 Insertado
-25355 Insertado
-25356 Insertado
-25357 Insertado
-25358 Insertado
-25359 Insertado
-25360 Insertado
-25361 Insertado
-25362 Insertado
-25363 Insertado
-25364 Insertado
-25365 Insertado
-25366 Insertado
-25367 Insertado
-25368 Insertado
-25369 Insertado
-25370 Insertado
+"25272";"Insertado"
+"25273";"Insertado"
+"25274";"Insertado"
+"25275";"Insertado"
+"25276";"Insertado"
+"25277";"Insertado"
+"25278";"Insertado"
+"25279";"Insertado"
+"25280";"Insertado"
+"25281";"Insertado"
+"25282";"Insertado"
+"25283";"Insertado"
+"25284";"Insertado"
+"25285";"Insertado"
+"25286";"Insertado"
+"25287";"Insertado"
+"25288";"Insertado"
+"25289";"Insertado"
+"25290";"Insertado"
+"25291";"Insertado"
+"25292";"Insertado"
+"25293";"Insertado"
+"25294";"Insertado"
+"25295";"Insertado"
+"25296";"Insertado"
+"25297";"Insertado"
+"25298";"Insertado"
+"25299";"Insertado"
+"25300";"Insertado"
+"25301";"Insertado"
+"25302";"Insertado"
+"25303";"Insertado"
+"25304";"Insertado"
+"25305";"Insertado"
+"25306";"Insertado"
+"25307";"Insertado"
+"25308";"Insertado"
+"25309";"Insertado"
+"25310";"Insertado"
+"25311";"Insertado"
+"25312";"Insertado"
+"25313";"Insertado"
+"25314";"Insertado"
+"25315";"Insertado"
+"25316";"Insertado"
+"25317";"Insertado"
+"25318";"Insertado"
+"25319";"Insertado"
+"25320";"Insertado"
+"25321";"Insertado"
+"25322";"Insertado"
+"25323";"Insertado"
+"25324";"Insertado"
+"25325";"Insertado"
+"25326";"Insertado"
+"25327";"Insertado"
+"25328";"Insertado"
+"25329";"Insertado"
+"25330";"Insertado"
+"25331";"Insertado"
+"25332";"Insertado"
+"25333";"Insertado"
+"25334";"Insertado"
+"25335";"Insertado"
+"25336";"Insertado"
+"25337";"Insertado"
+"25338";"Insertado"
+"25339";"Insertado"
+"25340";"Insertado"
+"25341";"Insertado"
+"25342";"Insertado"
+"25343";"Insertado"
+"25344";"Insertado"
+"25345";"Insertado"
+"25346";"Insertado"
+"25347";"Insertado"
+"25348";"Insertado"
+"25349";"Insertado"
+"25350";"Insertado"
+"25351";"Insertado"
+"25352";"Insertado"
+"25353";"Insertado"
+"25354";"Insertado"
+"25355";"Insertado"
+"25356";"Insertado"
+"25357";"Insertado"
+"25358";"Insertado"
+"25359";"Insertado"
+"25360";"Insertado"
+"25361";"Insertado"
+"25362";"Insertado"
+"25363";"Insertado"
+"25364";"Insertado"
+"25365";"Insertado"
+"25366";"Insertado"
+"25367";"Insertado"
+"25368";"Insertado"
+"25369";"Insertado"
+"25370";"Insertado"
+"25371";"Insertado"
+"25372";"Insertado"
