@@ -7,7 +7,7 @@
 
     <link rel="icon" type="image/vnd.microsoft.icon" href="../images/favicon.ico">
 
-    <title>Analisis de calles</title>
+    <title>Análisis de calles</title>
 </head>
 <body>
     <h2>Analiza la tabla de calles</h2>
@@ -15,7 +15,7 @@
 </html><?php 
  /* 
   * proceso de control de la tabla de calles
-  * Developer: Carlos Garcia > carlosgctes@gmail
+  * Developer: Carlos Garcia > carlosgctes@gmail.com
   * fecha: 06/03/2019
   *
   */
@@ -96,7 +96,7 @@ if(!$ejecutar){
 
 try {
 
-    $qry_vw_calles26_02 = 'select * from "' . $esquemaOrigen . '"."' . $tablaOrigen . '" where id_calles > 25300 order by id_calles limit 10';
+    $qry_vw_calles26_02 = 'select * from "' . $esquemaOrigen . '"."' . $tablaOrigen . '" order by id_calles';
 
     $rst_vw_calles26_02 = $conPdoPg->query($qry_vw_calles26_02);
 
@@ -127,7 +127,8 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
 
     if($reg_calleDestino){
         
-        // existe el id_calles en la tabla calles
+        // actualizo el registro existente
+
         $qry_update = 'update gismcc.calles set ';
 
         $qry_update .= genStrUpdate('id_calle', $reg_calleOrigen->id_calle, $reg_calleDestino->id_calle);
@@ -143,7 +144,7 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
         $qry_update .= genStrUpdate('observacion', "'" . $reg_calleOrigen->observacio . "'", "'" . $reg_calleDestino->observacion . "'");
         $qry_update .= genStrUpdate('the_geom_calles', "'" . $reg_calleOrigen->the_geom . "'", "'" . $reg_calleDestino->the_geom_calles . "'");
         $qry_update .= genStrUpdate('fecha_modificacion', "'" . date('Y-m-d H:m:s') . "'", '');
-        $qry_update .= genStrUpdate('usuario', "'" . $usuario . "'", '');
+        $qry_update .= genStrUpdate('usuario', "'" . $usuario . "'", "'" . $reg_calleDestino->usuario . "'");
         $qry_update .= genStrUpdate('id_traza', $reg_calleOrigen->id_traza, $reg_calleDestino->id_traza);
         $qry_update .= genStrUpdate('id_barrio_par', $reg_calleOrigen->id_barrio_, $reg_calleDestino->id_barrio_par);
         $qry_update .= genStrUpdate('id_barrio_impar', $reg_calleOrigen->id_barri_1, $reg_calleDestino->id_barrio_impar);
@@ -166,7 +167,7 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
            
             // echo $qry_update . '<br /><br />';
 
-            echo '"' . $reg_calleOrigen->id_calles . '";"Actualizado"' . '<br /><br />';
+            echo '"' . $reg_calleOrigen->id_calles . '";"Actualizado"' . '<br />';
 
             fwrite($file, '"' . $reg_calleOrigen->id_calles . '";"Actualizado"' . PHP_EOL);
 
@@ -209,21 +210,21 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
 
         try {
 
-            $qry_insert = "insert into gismcc.calles values($reg_calleOrigen->id_calles, $nombre, $id_tipo_ca, $id_tipo__1, $id_barrios, $limite, $altur_par, $altur_impa, $zonas_ct, $nro_ordena, $observacio, $the_geom, now(), '$usuario', $id_traza, null, null, $id_barrio_, $id_barri_1, $estado_cal, $sentido_ci, $id_secuenc, $altura, $clasif_via, $clasif_red, $zonas_ct, $id_calle, $resol); ";
+            $qry_insert = "insert into gismcc.calles values($reg_calleOrigen->id_calles, $nombre, $id_tipo_ca, $id_tipo__1, $id_barrios, $limite, $altur_par, $altur_impa, $zonas_ct, $nro_ordena, $observacio, $the_geom, now(), now(), '$usuario', $id_traza, null, null, $id_barrio_, $id_barri_1, $estado_cal, $sentido_ci, $id_secuenc, $altura, $resol, $clasif_via, $clasif_red, $zonas_ct, $id_calle); ";
 
-            echo $qry_insert . '<br /><br />';
+            // echo $qry_insert . '<br /><br />';
 
             $rst_insert = $conPdoPg->query($qry_insert);
 
             if($rst_insert){
 
-                echo $reg_calleOrigen->id_calles . ' Insertado' . '<br /><br />';
+                echo '"' . $reg_calleOrigen->id_calles . '"' . ';"Insertado"' . '<br />';
             
-                fwrite($file, $reg_calleOrigen->id_calles . ' Insertado' . PHP_EOL);
+                fwrite($file, '"' . $reg_calleOrigen->id_calles . '"' . ';"Insertado"' . PHP_EOL);
 
             } else {
 
-                echo 'No se pudo insertar el registro: id_calles: ' . $reg_calleOrigen->id_calles . '<br /><br />';
+                echo 'ERROR!!! No se pudo insertar el registro: id_calles: ' . $reg_calleOrigen->id_calles . '<br /><br />';
 
             }
         } catch (PDOException $e){
@@ -231,13 +232,12 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
         }
 
         $rst_insert = null;
-    
+
     }
 
+    $actualizarRegistroCalle=false;
+
 }
-
-
-$actualizarRegistroCalle=false;
 
 fclose($file);
 
