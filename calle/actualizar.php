@@ -38,7 +38,7 @@ echo '<br />';
 
 // variables de apoyo
 $ejecutar = true;
-$tablaOrigen = "vw_calles2602";
+$tablaOrigen = "vw_calles05_04";
 $esquemaOrigen = "actualizar";
 $usuario = 'carlosg';
 
@@ -56,9 +56,9 @@ try{
 
         $ejecutar = false;
 
-        fwrite($file, "\n\nHay registros duplicados en la tabla: \"vw_calles26-02\" " . PHP_EOL);
+        fwrite($file, "\n\nHay registros duplicados en la tabla: " . $tablaOrigen . PHP_EOL);
 
-        echo "<br /><br />Hay registros duplicados en la tabla: \"vw_calles26-02\"";
+        echo "<br /><br />Hay registros duplicados en la tabla: " . $tablaOrigen;
 
     }
 
@@ -132,8 +132,7 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
 */
 
         $qry_update = 'update gismcc.calles set ';
-
-        $qry_update .= genStrUpdate('id_calle', $reg_calleOrigen->id_calle, $reg_calleDestino->id_calle);
+        
         $qry_update .= genStrUpdate('nombre_calles', "'" . $reg_calleOrigen->nombre . "'", "'" . $reg_calleDestino->nombre_calles . "'");
         $qry_update .= genStrUpdate('id_tipo_calle', $reg_calleOrigen->id_tipo_ca, $reg_calleDestino->id_tipo_calle);
         $qry_update .= genStrUpdate('id_tipo_calzada', $reg_calleOrigen->id_tipo__1, $reg_calleDestino->id_tipo_calzada);
@@ -146,6 +145,7 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
         $qry_update .= genStrUpdate('observacion', "'" . $reg_calleOrigen->observacio . "'", "'" . $reg_calleDestino->observacion . "'");
         $qry_update .= genStrUpdate('the_geom_calles', "'" . $reg_calleOrigen->the_geom . "'", "'" . $reg_calleDestino->the_geom_calles . "'");
         $qry_update .= genStrUpdate('fecha_modificacion', "'" . date('Y-m-d H:m:s') . "'", '');
+        /* fecha_alta dejo como esta, sin modificar */
         $qry_update .= genStrUpdate('usuario', "'" . $usuario . "'", "'" . $reg_calleDestino->usuario . "'");
         $qry_update .= genStrUpdate('id_traza', $reg_calleOrigen->id_traza, $reg_calleDestino->id_traza);
         $qry_update .= genStrUpdate('id_barrio_par', $reg_calleOrigen->id_barrio_, $reg_calleDestino->id_barrio_par);
@@ -158,6 +158,7 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
         $qry_update .= genStrUpdate('clasif_vial', $reg_calleOrigen->clasif_via, $reg_calleDestino->clasif_vial);
         $qry_update .= genStrUpdate('clasif_red', $reg_calleOrigen->clasif_red, $reg_calleDestino->clasif_red);
         $qry_update .= genStrUpdate('zonas_ct', $reg_calleOrigen->zonas_ct, $reg_calleDestino->zonas_ct);
+        $qry_update .= genStrUpdate('id_calle', $reg_calleOrigen->id_calle, $reg_calleDestino->id_calle);
 
         $qry_update .= " where id_calles = $reg_calleOrigen->id_calles; ";
 
