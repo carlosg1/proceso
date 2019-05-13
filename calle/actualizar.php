@@ -8,7 +8,7 @@
 
 @error_reporting(E_ALL);
 
-set_time_limit(600);
+set_time_limit(1200);
 
 header("Content-Type: text/html");
 header("charset: utf-8");
