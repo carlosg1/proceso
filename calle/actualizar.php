@@ -2,13 +2,13 @@
  /* 
   * proceso de control de la tabla de calles
   * Developer: Carlos Garcia > carlosgctes@gmail.com
-  * Modificado: 05/04/2019
+  * Modificado: 03/06/2019
   *
   */
 
 @error_reporting(E_ALL);
 
-set_time_limit(1200);
+set_time_limit(2400);
 
 header("Content-Type: text/html");
 header("charset: utf-8");
@@ -38,7 +38,7 @@ echo '<br />';
 
 // variables de apoyo
 $ejecutar = true;
-$tablaOrigen = "vw_calles10_05";
+$tablaOrigen = "vw_calles31_05";
 $esquemaOrigen = "actualizar";
 $usuario = 'carlosg';
 
@@ -63,8 +63,11 @@ try{
     }
 
 } catch (Exception $e){
+
     print $e->getMessage();
+
     exit;
+    
 }
 
 // $rst_duplicados = null;
@@ -113,22 +116,22 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
 
     $reg_calleDestino = $stm_calleDestino->fetchObject();
 
-    $segir = true;
+    $seguir = true;
 
     // controla id_tipo_calle
-    if(isnull($reg_calleOrigen->id_tipo_ca)) { 
-        $seguir = false; 
+    if(is_null($reg_calleOrigen->id_tipo_ca)) { 
+        //$seguir = false; 
         echo '<br /><br />ERROR!!!  id_calles: ' . $reg_calleOrigen->id_calles . ' -  FALTA TIPO DE CALLE...<br /><br />';
     }
 
     // controlo tipo de calzada
-    if(isnull($reg_calleOrigen->id_tipo__1)) { 
-        $seguir = false; 
+    if(is_null($reg_calleOrigen->id_tipo__1)) { 
+        //$seguir = false; 
         echo '<br /><br />ERROR!!!  id_calles: ' . $reg_calleOrigen->id_calles . ' - FALTA TIPO DE CALZADA...<br /><br />';
     }
 
 
-    if(seguir) {
+    if($seguir) {
         
         if($reg_calleDestino){
 
@@ -144,7 +147,7 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
             $qry_update .= genStrUpdate('id_zonas_mantenimiento', $reg_calleOrigen->zonas_ct, $reg_calleDestino->id_zonas_mantenimiento);
             $qry_update .= genStrUpdate('nro_ordenanza', "'" . $reg_calleOrigen->nro_ordena . "'", "'" . $reg_calleDestino->nro_ordenanza . "'");
             $qry_update .= genStrUpdate('observacion', "'" . $reg_calleOrigen->observacio . "'", "'" . $reg_calleDestino->observacion . "'");
-            $qry_update .= genStrUpdate('the_geom_calles', "'" . $reg_calleOrigen->the_geom . "'", "'" . $reg_calleDestino->the_geom_calles . "'");
+            $qry_update .= genStrUpdate('the_geom_calles', "'" . $reg_calleOrigen->the_geom_calles . "'", "'" . $reg_calleDestino->the_geom_calles . "'");
             $qry_update .= genStrUpdate('fecha_modificacion', "'" . date('Y-m-d H:m:s') . "'", '');
             /* fecha_alta dejo como esta, sin modificar */
             $qry_update .= genStrUpdate('usuario', "'" . $usuario . "'", "'" . $reg_calleDestino->usuario . "'");
@@ -168,13 +171,15 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
                 $rst_update = $conPdoPg->query($qry_update);
 
             } catch (Exception $e){
+
                 echo $e->getMessage();
+
             }
-            
+
             // $rst_update = true; // borrar despues
 
             if($rst_update){
-            
+
                 // echo $qry_update . '<br /><br />';
 
                 echo '"' . $reg_calleOrigen->id_calles . '";"Actualizado"' . '<br />';
@@ -195,6 +200,7 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
 
             // agrego el registro que no existe en la tabla calles
 
+            $id_calles = is_null($reg_calleOrigen->id_calles) ? 'null' : "'" . $reg_calleOrigen->id_calles . "'";
             $nombre = is_null($reg_calleOrigen->nombre) ? 'null' : "'" . $reg_calleOrigen->nombre . "'";
             $id_tipo_ca = is_null($reg_calleOrigen->id_tipo_ca) ? 'null' : $reg_calleOrigen->id_tipo_ca;
             $id_tipo__1 = is_null($reg_calleOrigen->id_tipo__1) ? 'null' : $reg_calleOrigen->id_tipo__1;
@@ -205,7 +211,7 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
             $zonas_ct = is_null($reg_calleOrigen->zonas_ct) ? 'null' : $reg_calleOrigen->zonas_ct;
             $nro_ordena = is_null($reg_calleOrigen->nro_ordena) ? 'null' : "'" .  $reg_calleOrigen->nro_ordena . "'";
             $observacio = is_null($reg_calleOrigen->observacio) ? 'null' : "'" .  $reg_calleOrigen->observacio . "'";
-            $the_geom = is_null($reg_calleOrigen->the_geom) ? 'null' : "'" .  $reg_calleOrigen->the_geom . "'";
+            $the_geom = is_null($reg_calleOrigen->the_geom_calles) ? 'null' : "'" .  $reg_calleOrigen->the_geom_calles . "'";
             $id_traza = is_null($reg_calleOrigen->id_traza) ? 'null' : $reg_calleOrigen->id_traza;
             $id_barrio_ = is_null($reg_calleOrigen->id_barrio_) ? 'null' : $reg_calleOrigen->id_barrio_;
             $id_barri_1 = is_null($reg_calleOrigen->id_barri_1) ? 'null' : $reg_calleOrigen->id_barri_1;
@@ -215,14 +221,13 @@ while($reg_calleOrigen = $rst_vw_calles26_02->fetchObject()){
             $altura = is_null($reg_calleOrigen->altura) ? 'null' : $reg_calleOrigen->altura;
             $clasif_via = is_null($reg_calleOrigen->clasif_via) ? 'null' : $reg_calleOrigen->clasif_via;
             $clasif_red = is_null($reg_calleOrigen->clasif_red) ? 'null' : $reg_calleOrigen->clasif_red;
-            $clasif_red = is_null($reg_calleOrigen->clasif_red) ? 'null' : $reg_calleOrigen->clasif_red;
             $id_calle = is_null($reg_calleOrigen->id_calle) ? 'null' : $reg_calleOrigen->id_calle;
             $resol = is_null($reg_calleOrigen->resol) ? 'null' : "'" .  $reg_calleOrigen->resol . "'";
             
 
             try {
 
-                $qry_insert = "insert into gismcc.calles values($reg_calleOrigen->id_calles, $nombre, $id_tipo_ca, $id_tipo__1, $id_barrios, $limite, $altur_par, $altur_impa, $zonas_ct, $nro_ordena, $observacio, $the_geom, now(), now(), '$usuario', $id_traza, null, null, $id_barrio_, $id_barri_1, $estado_cal, $sentido_ci, $id_secuenc, $altura, $resol, $clasif_via, $clasif_red, $zonas_ct, $id_calle); ";
+                $qry_insert = "insert into gismcc.calles values($id_calles, $nombre, $id_tipo_ca, $id_tipo__1, $id_barrios, $limite, $altur_par, $altur_impa, $zonas_ct, $nro_ordena, $observacio, $the_geom, now(), now(), '$usuario', $id_traza, null, null, $id_barrio_, $id_barri_1, $estado_cal, $sentido_ci, $id_secuenc, $altura, $resol, $clasif_via, $clasif_red, $zonas_ct, $id_calle); ";
 
                 $rst_insert = $conPdoPg->query($qry_insert);
 
